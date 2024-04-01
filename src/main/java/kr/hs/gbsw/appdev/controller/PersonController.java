@@ -1,12 +1,17 @@
 package kr.hs.gbsw.appdev.controller;
 
 import kr.hs.gbsw.appdev.domain.Person;
+import kr.hs.gbsw.appdev.service.PersonService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @Slf4j
 public class PersonController {
+
+    private final PersonService personService;
 
     @PostMapping(value = "/person/add")
     public void addPerson(@RequestParam(value = "name") String name,
@@ -22,8 +27,15 @@ public class PersonController {
     }
 
     @PostMapping(value = "/person/add3")
-    public void addPerson3(@RequestBody Person person) {
+    public Person addPerson3(@RequestBody Person person) {
         log.info("/person/add3 호출됨  {}", person);
+
+        return personService.addPerson(person);
+    }
+
+    @GetMapping(value = "/person/{idx}")
+    public Person readPerson(@PathVariable(value = "idx") int idx) {
+        return personService.getPerson(idx);
     }
 
 }

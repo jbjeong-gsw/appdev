@@ -9,6 +9,8 @@ import lombok.ToString;
 @ToString
 public class Person {
 
+    private int idx;
+
     private String name;
 
     private String email;
