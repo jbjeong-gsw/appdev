@@ -1,12 +1,14 @@
 package kr.hs.gbsw.appdev.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import kr.hs.gbsw.appdev.entity.PersonEntity;
+import lombok.*;
 
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Person {
 
     private int idx;
@@ -16,5 +18,6 @@ public class Person {
     private String email;
 
     private int age;
+
 
 }

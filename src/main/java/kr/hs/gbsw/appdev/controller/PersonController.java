@@ -26,7 +26,7 @@ public class PersonController {
         log.info("/person/add2 호출됨  {}", person);
     }
 
-    @PostMapping(value = "/person/add3")
+    @PostMapping(value = "/person")
     public Person addPerson3(@RequestBody Person person) {
         log.info("/person/add3 호출됨  {}", person);
 
