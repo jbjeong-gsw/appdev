@@ -28,6 +28,7 @@ public class PersonEntity {
 
     public static PersonEntity toEntity(Person person) {
         return PersonEntity.builder()
+                .idx(person.getIdx())
                 .name(person.getName())
                 .email(person.getEmail())
                 .age(person.getAge())
@@ -36,6 +37,7 @@ public class PersonEntity {
 
     public static Person toDomain(PersonEntity entity) {
         return Person.builder()
+                .idx(entity.getIdx())
                 .name(entity.getName())
                 .email(entity.getEmail())
                 .age(entity.getAge())

@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -36,6 +38,12 @@ public class PersonController {
     @GetMapping(value = "/person/{idx}")
     public Person readPerson(@PathVariable(value = "idx") int idx) {
         return personService.getPerson(idx);
+    }
+
+
+    @GetMapping(value = "/person")
+    public List<Person> listPerson() {
+        return personService.list();
     }
 
 }

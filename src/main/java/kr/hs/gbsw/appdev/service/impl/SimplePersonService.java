@@ -34,4 +34,9 @@ public class SimplePersonService implements PersonService {
 
         throw new RuntimeException("not found");
     }
+
+    @Override
+    public List<Person> list() {
+        return list;
+    }
 }

@@ -8,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 @Primary
@@ -28,6 +32,27 @@ public class DatabasePersonService implements PersonService {
 
     @Override
     public Person getPerson(int idx) {
-        return null;
+
+        Optional<PersonEntity> optional = personRepository.findById(idx);
+        PersonEntity entity = optional.orElse(null);
+
+        if (entity != null) {
+            return PersonEntity.toDomain(entity);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Person> list() {
+        List<PersonEntity> list = personRepository.findAll();
+
+        List<Person> result = new ArrayList<>();
+
+        for (PersonEntity entity : list) {
+            result.add(PersonEntity.toDomain(entity));
+        }
+
+        return result;
     }
 }
