@@ -47,8 +47,14 @@ public class CashbookServiceImpl implements CashbookService {
     }
 
     @Override
-    public List<Cashbook> listItems() {
-        List<CashbookEntity> list = cashbookRepository.findAll();
+    public List<Cashbook> listItems(String direction) {
+        List<CashbookEntity> list = null;
+
+        if (direction == null) {
+            list = cashbookRepository.findAll();
+        } else {
+            list = cashbookRepository.findAllByDirection(direction);
+        }
 
         List<Cashbook> result = new ArrayList<>();
         for (CashbookEntity entity : list) {

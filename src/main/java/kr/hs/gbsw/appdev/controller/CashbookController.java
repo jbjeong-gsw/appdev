@@ -20,8 +20,9 @@ public class CashbookController {
     }
 
     @GetMapping("")
-    public List<Cashbook> listCashbook() {
-        return cashbookService.listItems();
+    public List<Cashbook> listCashbook(
+            @RequestParam(value = "direction", required = false) String direction) {
+        return cashbookService.listItems(direction);
     }
 
     @GetMapping("/{idx}")

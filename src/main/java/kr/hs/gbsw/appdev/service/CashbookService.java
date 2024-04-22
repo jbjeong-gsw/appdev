@@ -10,7 +10,7 @@ public interface CashbookService {
 
     public Cashbook getCashbookItem(int idx);
 
-    public List<Cashbook> listItems();
+    public List<Cashbook> listItems(String direction);
 
     public Cashbook updateItem(Cashbook cashbook);
 
