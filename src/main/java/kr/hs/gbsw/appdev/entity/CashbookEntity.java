@@ -22,9 +22,10 @@ public class CashbookEntity {
 
     private int amount;
 
-    @Column(name = "use_time")
+    @Column(name = "use_time", updatable = false)
     private Date inOutTime;
 
+    @Column(updatable = false)
     private String direction;
 
 }
