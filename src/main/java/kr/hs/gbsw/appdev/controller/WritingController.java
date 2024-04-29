@@ -17,8 +17,10 @@ public class WritingController {
     private final WritingService writingService;
 
     @GetMapping("")
-    public Page<Writing> list(@RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber) {
-        return writingService.list(pageNumber);
+    public Page<Writing> list(
+            @RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
+            @RequestParam(value = "search", required = false) String search) {
+        return writingService.list(pageNumber, search);
     }
 
 }

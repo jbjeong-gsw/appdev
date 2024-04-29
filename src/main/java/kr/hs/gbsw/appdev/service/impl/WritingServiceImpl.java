@@ -18,11 +18,17 @@ public class WritingServiceImpl implements WritingService {
     private final WritingRepository writingRepository;
 
     @Override
-    public Page<Writing> list(int pageNumber) {
+    public Page<Writing> list(int pageNumber, String search) {
         Sort sort = Sort.by(Sort.Direction.DESC, "writingIdx");
         Pageable pageable = PageRequest.of(pageNumber, 10, sort);
 
-        Page<WritingEntity> page = writingRepository.findAll(pageable);
+        Page<WritingEntity> page = null;
+        if (search == null) {
+            page = writingRepository.findAll(pageable);
+        } else {
+            page = writingRepository.findAllByTitleContaining(pageable, search);
+        }
+
         return page.map(Writing::toDomain);
     }
 }

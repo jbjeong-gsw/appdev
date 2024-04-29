@@ -6,6 +6,6 @@ import org.springframework.data.domain.Page;
 
 public interface WritingService {
 
-    public Page<Writing> list(int pageNumber);
+    public Page<Writing> list(int pageNumber, String search);
 
 }
