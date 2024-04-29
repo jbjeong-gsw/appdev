@@ -6,6 +6,7 @@ import kr.hs.gbsw.appdev.repository.PersonRepository;
 import kr.hs.gbsw.appdev.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -54,5 +55,13 @@ public class DatabasePersonService implements PersonService {
         }
 
         return result;
+    }
+
+    @Override
+    public Page<Person> list(int pageNumber, int count) {
+
+
+
+        return null;
     }
 }

@@ -2,6 +2,7 @@ package kr.hs.gbsw.appdev.service.impl;
 
 import kr.hs.gbsw.appdev.domain.Person;
 import kr.hs.gbsw.appdev.service.PersonService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +39,10 @@ public class SimplePersonService implements PersonService {
     @Override
     public List<Person> list() {
         return list;
+    }
+
+    @Override
+    public Page<Person> list(int pageNumber, int count) {
+        return null;
     }
 }
