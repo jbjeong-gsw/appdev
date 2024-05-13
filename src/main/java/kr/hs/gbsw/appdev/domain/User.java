@@ -28,7 +28,7 @@ public class User {
 
     private String withdrawedYn;
 
-    private Date withdrawedTime;
+    private Date withdrawTime;
 
     public static UserEntity toEntity(User domain) {
         return UserEntity.builder()
@@ -40,7 +40,7 @@ public class User {
                 .registerTime(domain.getRegisterTime())
                 .lastLoginTime(domain.getLastLoginTime())
                 .withdrawedYn(domain.getWithdrawedYn())
-                .withdrawedTime(domain.getWithdrawedTime())
+                .withdrawTime(domain.getWithdrawTime())
                 .build();
     }
 
@@ -54,7 +54,7 @@ public class User {
                 .registerTime(entity.getRegisterTime())
                 .lastLoginTime(entity.getLastLoginTime())
                 .withdrawedYn(entity.getWithdrawedYn())
-                .withdrawedTime(entity.getWithdrawedTime())
+                .withdrawTime(entity.getWithdrawTime())
                 .build();
 
     }

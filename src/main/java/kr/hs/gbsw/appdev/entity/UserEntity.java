@@ -35,6 +35,6 @@ public class UserEntity {
     @Column(insertable = false)
     private String withdrawedYn;
 
-    private Date withdrawedTime;
+    private Date withdrawTime;
 
 }
