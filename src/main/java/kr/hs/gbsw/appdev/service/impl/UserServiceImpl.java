@@ -43,6 +43,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User get(String email) {
+        UserEntity entity = userRepository.findByEmail(email).orElseThrow();
+
+        return User.toDomain(entity);
+    }
+
+    @Override
     public User update(User user) {
         UserEntity entity = User.toEntity(user);
 

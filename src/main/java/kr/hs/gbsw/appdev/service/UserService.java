@@ -20,6 +20,8 @@ public interface UserService {
      */
     User get(int idx);
 
+    User get(String email);
+
     User update(User user);
 
     void remove(int userIdx);
