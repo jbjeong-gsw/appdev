@@ -2,6 +2,8 @@ package kr.hs.gbsw.appdev.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,13 +24,16 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        //.requestMatchers("/login").permitAll()
+                        .requestMatchers("/user/login").permitAll()
                         .requestMatchers("/writing").authenticated()
                         .anyRequest().authenticated());
 
+        /*
         http.formLogin(form -> {
             form.permitAll();
         });
+
+         */
 
         return http.build();
     }
@@ -37,5 +42,13 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
+            throws Exception
+    {
+        return configuration.getAuthenticationManager();
+    }
+
 
 }
