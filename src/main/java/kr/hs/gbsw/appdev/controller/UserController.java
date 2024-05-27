@@ -39,17 +39,28 @@ public class UserController {
             new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
                     loginRequest.getPassword());
 
+        LoginResponse response = LoginResponse.builder().build();
         try {
             Authentication authentication =
                     authenticationManager.authenticate(abstractAuthenticationToken);
 
+            log.info("[LOGIN] authentication - {}", authentication);
+            log.info("  principal - {}", authentication.getPrincipal());
+
+            response.setSuccess(true);
+            response.setToken("나중에 만들어 줄게요.");
+        } catch (BadCredentialsException e) {
+            response.setSuccess(false);
+            response.setMessage("등록되지 않은 이메일이거나, 비밀번호가 올바르지 않습니다.");
+        } catch (AccountExpiredException e) {
+            response.setSuccess(false);
+            response.setMessage("탈퇴한 계정입니다.");
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            response.setSuccess(false);
+            response.setMessage(e.getMessage());
         }
 
-
-
-        return null;
+        return ResponseEntity.ok(response);
     }
 
 
