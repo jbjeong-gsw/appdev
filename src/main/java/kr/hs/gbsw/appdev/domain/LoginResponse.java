@@ -11,7 +11,7 @@ import lombok.*;
 public class LoginResponse {
     private boolean success;
 
-    private String message;
+    private String token;
 
-    private String jwtToken;
+    private String message;
 }

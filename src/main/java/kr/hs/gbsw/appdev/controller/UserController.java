@@ -32,45 +32,25 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        AbstractAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
-                        loginRequest.getPassword());
+    public ResponseEntity<LoginResponse> login(
+            @RequestBody LoginRequest loginRequest) {
 
-        LoginResponse loginResponse = null;
+        AbstractAuthenticationToken abstractAuthenticationToken =
+            new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
+                    loginRequest.getPassword());
+
         try {
             Authentication authentication =
-                    authenticationManager.authenticate(authenticationToken);
+                    authenticationManager.authenticate(abstractAuthenticationToken);
 
-            loginResponse = LoginResponse.builder()
-                    .success(true)
-                    .jwtToken("------")
-                    .build();
-        } catch (BadCredentialsException e) {
-            loginResponse = LoginResponse.builder()
-                    .success(false)
-                    .message("가입되지 않았거나, 비밀번호가 올바르지 않습니다.")
-                    .build();
-        }
-        catch (AccountExpiredException e) {
-            loginResponse = LoginResponse.builder()
-                    .success(false)
-                    .message("탈퇴한 계정입니다.")
-                    .build();
-        } catch (DisabledException e) {
-            loginResponse = LoginResponse.builder()
-                    .success(false)
-                    .message("승인되지 않은 계정입니다.")
-                    .build();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-
-            loginResponse = LoginResponse.builder()
-                    .success(false)
-                    .message(e.getMessage())
-                    .build();
         }
 
-        return ResponseEntity.ok(loginResponse);
+
+
+        return null;
     }
+
+
 }
