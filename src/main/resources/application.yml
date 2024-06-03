@@ -5,3 +5,7 @@ spring:
     url: jdbc:mariadb://www.mhaa.kr:3306/gbsw_2024
     username: gbsw
     password: gbsw0415!!
+
+jwt:
+  expiry: 1800000
+

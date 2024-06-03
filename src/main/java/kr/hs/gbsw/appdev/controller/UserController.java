@@ -1,5 +1,6 @@
 package kr.hs.gbsw.appdev.controller;
 
+import kr.hs.gbsw.appdev.config.JwtProvider;
 import kr.hs.gbsw.appdev.domain.LoginRequest;
 import kr.hs.gbsw.appdev.domain.LoginResponse;
 import kr.hs.gbsw.appdev.domain.User;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +25,8 @@ public class UserController {
     private final UserService userService;
 
     private final AuthenticationManager authenticationManager;
+
+    private final JwtProvider jwtProvider;
 
     @PostMapping("")
     public ResponseEntity<User> add(@RequestBody User user) {
@@ -47,8 +51,13 @@ public class UserController {
             log.info("[LOGIN] authentication - {}", authentication);
             log.info("  principal - {}", authentication.getPrincipal());
 
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // JWT을 생성한다.
+            String jwt = jwtProvider.createToken(authentication);
+
             response.setSuccess(true);
-            response.setToken("나중에 만들어 줄게요.");
+            response.setToken(jwt);
         } catch (BadCredentialsException e) {
             response.setSuccess(false);
             response.setMessage("등록되지 않은 이메일이거나, 비밀번호가 올바르지 않습니다.");
