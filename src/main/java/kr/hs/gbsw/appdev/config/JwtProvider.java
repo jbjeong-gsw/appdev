@@ -1,13 +1,18 @@
 package kr.hs.gbsw.appdev.config;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -17,6 +22,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class JwtProvider implements InitializingBean {
     private static final String AUTHORIZATION_KEY = "Authorization";
@@ -28,6 +34,8 @@ public class JwtProvider implements InitializingBean {
     private long expiryMillis;
 
     private Key key;
+
+    private final UserDetailsService userDetailsService;
 
 
     @Override
@@ -53,6 +61,41 @@ public class JwtProvider implements InitializingBean {
                 .setExpiration(expiry)
                 .signWith(this.key)
                 .compact();
+    }
+
+    public boolean validateJwt(String jwt) {
+        try {
+            if (jwt == null || jwt.isBlank()) {
+                return false;
+            }
+
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt);
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public Authentication createAuthentication(String jwt) {
+        try {
+            Claims claims =
+                    Jwts.parserBuilder()
+                            .setSigningKey(key)
+                            .build()
+                            .parseClaimsJws(jwt)
+                            .getBody();
+
+            UserDetails userDetails =
+                    userDetailsService.loadUserByUsername(claims.getSubject());
+
+
+            return new UsernamePasswordAuthenticationToken(userDetails, "",
+                            userDetails.getAuthorities());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

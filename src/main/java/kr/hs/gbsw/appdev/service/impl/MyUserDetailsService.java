@@ -2,6 +2,7 @@ package kr.hs.gbsw.appdev.service.impl;
 
 import kr.hs.gbsw.appdev.domain.MyUserDetails;
 import kr.hs.gbsw.appdev.domain.User;
+import kr.hs.gbsw.appdev.entity.UserEntity;
 import kr.hs.gbsw.appdev.repository.UserRepository;
 import kr.hs.gbsw.appdev.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +17,14 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class MyUserDetailsService implements UserDetailsService {
 
-    private final UserService userService;
+    //private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            User user = userService.get(username);
+            UserEntity entity = userRepository.findByEmail(username).orElseThrow();
+            User user = User.toDomain(entity);
 
             return new MyUserDetails(user);
 
